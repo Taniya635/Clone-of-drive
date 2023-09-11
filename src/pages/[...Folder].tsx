@@ -7,9 +7,9 @@ import { useFetchSession } from '@/Hooks/useSession'
 
  const Folder = () => {
   const router=useRouter()
-  let parentId=router?.query?.id;
-  let ownerEmail = router?.query?.owner;
-  let session=useFetchSession()
+  const parentId=router?.query?.id;
+  const ownerEmail = router?.query?.owner;
+  const session=useFetchSession()
   console.log(router?.query?.id);
   
   return (
