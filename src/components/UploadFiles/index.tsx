@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useState } from "react";
+import React, {  useState } from "react";
+import type { ChangeEvent } from "react";
 import styles from "./Upload.module.scss";
 import { Button } from "../common/Button/Button";
 import { CommonProgress } from "../common/Progress";
@@ -12,18 +13,21 @@ export const UploadFiles = ({ parentId,ownerEmail }:FolderStructure) => {
   const [progress, setProgress] = useState(0);
   const [isFolderVisible, setFolderVisible] = useState(false);
   const [folderName, setFolderName] = useState("");
-  let {session}=useFetchSession()
-  console.log(session?.user.email);
+  const {session}=useFetchSession()
+  // console.log(session?.user.email);
   
 
   const upLoadFile = async (event: ChangeEvent<HTMLInputElement>) => {
-    let file = event.target.files?.[0];
-    fileUpload(file, setProgress,parentId, session?.user.email as string,ownerEmail);
+    const file = event.target.files?.[0];
+    if (file) {
+      await fileUpload(file, setProgress, parentId, session!.user.email as string, ownerEmail);
+    }
   };
+  
   console.log(parentId);
   
   const upLoadFolder = () => {
-    let payload = {
+    const payload = {
       folderName: folderName,
       isFolder: true,
       fileList: [],
@@ -47,10 +51,14 @@ export const UploadFiles = ({ parentId,ownerEmail }:FolderStructure) => {
 
       {isFileVisible ? (
         <input
-          onChange={(event) => upLoadFile(event)}
-          type="file"
-          className="file-input w-full max-w-xs"
-        />
+        onChange={async (event) => {
+          await upLoadFile(event); // Wait for the upload to complete
+          // Additional code you want to run after the upload
+        }}
+        type="file"
+        className="file-input w-full max-w-xs"
+      />
+      
       ) : (
         <></>
       )}

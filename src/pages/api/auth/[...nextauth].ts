@@ -5,14 +5,14 @@ import GoogleProvider from "next-auth/providers/google";
 export const authOptions = {
   // Configure one or more authentication providers
   providers: [
-    GithubProvider(<AuthInterface >{
+    GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-    }),
-    GoogleProvider(<AuthInterface>{
+    }as AuthInterface),
+    GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
-    })
+    }as AuthInterface)
     // ...add more providers here
   ],
 }
